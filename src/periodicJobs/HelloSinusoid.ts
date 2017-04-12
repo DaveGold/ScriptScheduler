@@ -14,7 +14,7 @@ export class HelloSinusoid implements IPeriodicJob {
 
     public async run(job: any, done: any): Promise<void> {
 
-        const tag: string = "Sinusoid";
+        const tag: string = "SINUSOID";
         let val = await this.getPITagData(tag);
         console.log(`Tag ${tag} has at timestamp ${val.Timestamp} the following value: ${val.Value}`);
         done();
