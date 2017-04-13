@@ -1,13 +1,12 @@
-// Import Agenda and typings module
-/// <reference path="../node_modules/@types/agenda/index.d.ts" />
+// Import Agenda
 import Agenda = require("agenda");
 
 // Import interfaces
 import { IPeriodicJob } from "./interfaces/IPeriodicJob";
 
 // Import IOC container
-import { container } from "./config/ioc_config";
 import "reflect-metadata";
+import { container } from "./config/ioc_config";
 
 async function runAgenda(): Promise<void> {
 
@@ -19,26 +18,26 @@ async function runAgenda(): Promise<void> {
     defaultLockLifetime: 10000,
     defaultLockLimit: 0,
     lockLimit: 0,
-    maxConcurrency: 20,    
+    maxConcurrency: 20,
     processEvery: "1 seconds",
   });
   agenda.name("periodicJobsProcessor"); // Add name external because not in configuration typings
 
   // Resolve IPeriodic Jobs with IOC container
-  const periodicJobs: IPeriodicJob[] = container.getAll<IPeriodicJob>("IPeriodicJob");
-  
+  const periodicJobs = container.getAll<IPeriodicJob>("IPeriodicJob");
+
   // Define job for each periodicJob
-  for  (const periodicJob of periodicJobs){
+  for (const periodicJob of periodicJobs){
     agenda.define(periodicJob.constructor.name, (job: any, done: any) => {
-      periodicJob.run(job, done); 
+      periodicJob.run(job, done);
     });
-  }  
+  }
 
   // Wait for agenda to connect.
   agenda.on("ready", () => {
-    for  (const periodicJob of periodicJobs){
+    for (const periodicJob of periodicJobs){
       agenda.every(periodicJob.config.interval, periodicJob.constructor.name);
-    }      
+    }
     agenda.start();
   });
 
@@ -52,7 +51,7 @@ async function runAgenda(): Promise<void> {
 
   agenda.on("fail", (job: any) => {
     console.log(`Job ${job.attrs.name} has failed at ${new Date().toISOString()}`);
-  }); 
+  });
 
 }
 

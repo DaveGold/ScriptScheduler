@@ -1,3 +1,3 @@
 import { Container } from "inversify";
-declare let container: Container;
+declare const container: Container;
 export { container };
