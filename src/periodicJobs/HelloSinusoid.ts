@@ -1,10 +1,15 @@
 
-
-/// <reference path="../../node_modules/@types/request-promise-native/index.d.ts" />
-
+// Import injectable for dependency injection
+import { injectable } from "inversify";
+import "reflect-metadata";
+// Import IPeriodic interface
 import { IPeriodicJob } from "../interfaces/IPeriodicJob";
+
+// Import request-promise-native with typings
+/// <reference path="../../node_modules/@types/request-promise-native/index.d.ts" />
 import rp = require("request-promise-native")
 
+@injectable()
 export class HelloSinusoid implements IPeriodicJob {
     
     public config = {
@@ -21,7 +26,7 @@ export class HelloSinusoid implements IPeriodicJob {
 
     }
 
-    private async getPITagData(tag: string){
+    public async getPITagData(tag: string){
 
         const user: string = "webapiuser";
         const pass: string = "!try3.14webapi!";

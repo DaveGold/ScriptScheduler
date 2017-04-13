@@ -1,6 +1,4 @@
 
-// IPeriodicJob/index.d.ts
-
 export interface IPeriodicJob {
 
     config: {

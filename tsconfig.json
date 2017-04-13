@@ -11,7 +11,9 @@
     "removeComments": true,
     "typeRoots": [
       "./node_modules/@types"
-    ]
+    ],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "include": [
     "src/**/*"

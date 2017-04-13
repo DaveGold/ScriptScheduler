@@ -1,11 +1,17 @@
+// Import Agenda and typings module
 /// <reference path="../node_modules/@types/agenda/index.d.ts" />
-
-import { IPeriodicJob } from "./interfaces/IPeriodicJob";
-import * as PeriodicJobs from "./periodicJobs/";
 import Agenda = require("agenda");
+
+// Import interfaces
+import { IPeriodicJob } from "./interfaces/IPeriodicJob";
+
+// Import IOC container
+import { container } from "./config/ioc_config";
+import "reflect-metadata";
 
 async function runAgenda(): Promise<void> {
 
+  // Setup Agenda with mongodb connection and all parameters
   const dbConnectionString = "mongodb://localhost:27017/scriptScheduler";
   const agenda = new Agenda({
     db: {address: dbConnectionString, collection: "periodicsJobs"},
@@ -16,27 +22,23 @@ async function runAgenda(): Promise<void> {
     maxConcurrency: 20,    
     processEvery: "1 seconds",
   });
-  // Add name external because not in configuration typings
-  agenda.name("periodicJobsProcessor")
+  agenda.name("periodicJobsProcessor"); // Add name external because not in configuration typings
 
-  // Read job definitions from import
-  const keys = Object.keys(PeriodicJobs);
+  // Resolve IPeriodic Jobs with IOC container
+  const periodicJobs: IPeriodicJob[] = container.getAll<IPeriodicJob>("IPeriodicJob");
   
-  for (const key of keys) {    
-    const jobClass = (PeriodicJobs as any)[key];
-    const periodicJob: IPeriodicJob = new jobClass(); 
-    agenda.define(key, (job: any, done: any) => {
+  // Define job for each periodicJob
+  for  (const periodicJob of periodicJobs){
+    agenda.define(periodicJob.constructor.name, (job: any, done: any) => {
       periodicJob.run(job, done); 
     });
-  }    
+  }  
 
   // Wait for agenda to connect.
   agenda.on("ready", () => {
-    for (const key of keys) {
-      const jobClass = (PeriodicJobs as any)[key];
-      const periodicJob: IPeriodicJob = new jobClass();
-      agenda.every(periodicJob.config.interval, key);
-    }
+    for  (const periodicJob of periodicJobs){
+      agenda.every(periodicJob.config.interval, periodicJob.constructor.name);
+    }      
     agenda.start();
   });
 

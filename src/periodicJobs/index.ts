@@ -1,2 +1,0 @@
-export { HelloSinusoid } from "./HelloSinusoid";
-
