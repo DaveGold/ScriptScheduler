@@ -8,10 +8,11 @@ A project based on agenda to run periodic jobs.
 Motivation for the project was to create something that would allow programmers full scripting control while the only thing that needs to be added is an extra typescript alghoritm to the jobs folder (not completely true, the file needs to be added to ioc config).
 
 Features:
-- Typescript
+- Typescript (Typings, Async/Await etc.)
 - Unit testing
 - Code coverage
 - Dependency injection
+- Visual Studio Code tasks and debugging
 
 I personally use this project because I don't like the scripting abilities of OSIsoft Asset Framework Analytics.
 It uses a unknown script language, it has limited program flow control, no ways of adding extensions or writing unit tests.

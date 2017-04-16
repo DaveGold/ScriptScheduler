@@ -41,7 +41,7 @@ export class HelloSinusoid implements IPeriodicJob {
         // get point with pointapi
         const pointapi = new PointApi(user,pass,baseUrl);
         const pointResponse = await pointapi.pointGetByPath(`\\\\PISRV1\\${tag}`);
-               
+        
         // get value with streamapi
         const streamapi = new StreamApi(user,pass,baseUrl);
         const valueResponse = await streamapi.streamGetValue(pointResponse.body.WebId);
