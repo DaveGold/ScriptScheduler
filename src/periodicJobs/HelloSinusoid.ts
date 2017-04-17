@@ -23,7 +23,7 @@ export class HelloSinusoid implements IPeriodicJob {
 
         try {
             this.service.setBasicAuth("webapiuser","!try3.14webapi!")   
-            const result  = await this.service.getPIPointData("PISRV1","SINUSOID");
+            const result  = await this.service.getPointDataByPath("\\\\PISRV1\\SINUSOID");
             console.log(result.Timestamp + " " + result.Value);
         }
         catch(error) {
