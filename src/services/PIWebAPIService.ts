@@ -11,7 +11,9 @@ export class PIWebAPIService implements IPIWebAPIService {
     
     private _user: string;
     private _password: string;
-    private _basePath: string;    
+    private _basePath: string;   
+    private pointapi: PointApi;
+    private streamapi: StreamApi;
 
     public setBasicAuth(user: string, password: string){
         this._user = user;
@@ -22,9 +24,7 @@ export class PIWebAPIService implements IPIWebAPIService {
         this._basePath = basePath;
     };
 
-    // Get value from PI point
-    public async getPIPointData(serverName: string, pointName: string) : Promise<TimedValue> {
-
+    private initAPI(){
         // Initialse api's
         let pointapi: PointApi;
         let streamapi: StreamApi;
@@ -48,10 +48,16 @@ export class PIWebAPIService implements IPIWebAPIService {
                 streamapi = new StreamApi();
             }      
         }
+    }
+
+    // Get value from PI point
+    public async getPIPointData(serverName: string, pointName: string) : Promise<TimedValue> {
+
+        this.initAPI();        
 
         // Get point value
-        const pointResponse = await pointapi.pointGetByPath(`\\\\${serverName}\\${pointName}`); 
-        const valueResponse = await streamapi.streamGetValue(pointResponse.body.WebId);
+        const pointResponse = await this.pointapi.pointGetByPath(`\\\\${serverName}\\${pointName}`); 
+        const valueResponse = await this.streamapi.streamGetValue(pointResponse.body.WebId);
         
         // Return TimedValue
         return valueResponse.body;; 
