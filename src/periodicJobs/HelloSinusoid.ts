@@ -1,16 +1,16 @@
 
 // Import injectable for dependency injection
-import { injectable } from "inversify";
+import { injectable, inject } from "inversify";
 import "reflect-metadata";
 
-// Import IPeriodic interface
+// Import interfaces
 import { IPeriodicJob } from "../interfaces/IPeriodicJob";
-
-// Import piwebapi client
-import { PointApi, StreamApi, TimedValue } from "../clients/piwebapi"
+import { IPIWebAPIService } from "../interfaces/IPIWebAPIService";
 
 @injectable()
 export class HelloSinusoid implements IPeriodicJob {
+
+    constructor(@inject("IPIWebAPIService")private service: IPIWebAPIService){};
 
     // Job config
     public config = {
@@ -20,33 +20,16 @@ export class HelloSinusoid implements IPeriodicJob {
 
     // Job run function
     public async run(job: any, done: any) {
+
         try {
-            const result: TimedValue = await this.getPITagData("SINUSOID");
+            this.service.setBasicAuth("webapiuser","!try3.14webapi!")   
+            const result  = await this.service.getPIPointData("PISRV1","SINUSOID");
             console.log(result.Timestamp + " " + result.Value);
         }
         catch(error) {
             console.error(error);
         }
         done();
-    }
 
-    // PIWebAPI help function
-    public async getPITagData(tag: string) : Promise<TimedValue> {
-
-        // default url and basic auth
-        const user: string = "webapiuser";
-        const pass: string = "!try3.14webapi!";
-        const baseUrl: string = "https://devdata.osisoft.com/piwebapi";
-        
-        // get point with pointapi
-        const pointapi = new PointApi(user,pass,baseUrl);
-        const pointResponse = await pointapi.pointGetByPath(`\\\\PISRV1\\${tag}`);
-        
-        // get value with streamapi
-        const streamapi = new StreamApi(user,pass,baseUrl);
-        const valueResponse = await streamapi.streamGetValue(pointResponse.body.WebId);
-        const value: TimedValue = valueResponse.body;
-
-        return value; 
-    }
+    }    
 }

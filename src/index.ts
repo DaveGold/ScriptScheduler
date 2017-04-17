@@ -6,7 +6,7 @@ import { IPeriodicJob } from "./interfaces/IPeriodicJob";
 
 // Import IOC container
 import "reflect-metadata";
-import { container } from "./config/ioc_config";
+import { container } from "./configs/ioc_config";
 
 async function runAgenda(): Promise<void> {
 
