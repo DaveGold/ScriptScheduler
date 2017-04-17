@@ -25,44 +25,32 @@ export class PIWebAPIService implements IPIWebAPIService {
     // Get value from PI point
     public async getPIPointData(serverName: string, pointName: string) : Promise<TimedValue> {
 
-        // Get point with pointapi
+        // Initialse api's
         let pointapi: PointApi;
-        if (this._user && this._password){
-            if (this._basePath){
-                pointapi = new PointApi(this._user,this._password,this._basePath);        
-            }
-            else{
-                pointapi = new PointApi(this._user,this._password);
-            }            
-        }
-        else{
-            if (this._basePath){
-                pointapi = new PointApi(this._basePath);        
-            }
-            else{
-                pointapi = new PointApi();
-            }      
-        }
-        const pointResponse = await pointapi.pointGetByPath(`\\\\${serverName}\\${pointName}`);
-        
-        // Get value with streamapi
         let streamapi: StreamApi;
         if (this._user && this._password){
             if (this._basePath){
-                streamapi = new StreamApi(this._user,this._password,this._basePath);        
+                pointapi = new PointApi(this._user,this._password,this._basePath);  
+                streamapi = new StreamApi(this._user,this._password,this._basePath);       
             }
             else{
+                pointapi = new PointApi(this._user,this._password);
                 streamapi = new StreamApi(this._user,this._password);
             }            
         }
         else{
             if (this._basePath){
+                pointapi = new PointApi(this._basePath);
                 streamapi = new StreamApi(this._basePath);        
             }
             else{
+                pointapi = new PointApi();
                 streamapi = new StreamApi();
             }      
-        }        
+        }
+
+        // Get point value
+        const pointResponse = await pointapi.pointGetByPath(`\\\\${serverName}\\${pointName}`); 
         const valueResponse = await streamapi.streamGetValue(pointResponse.body.WebId);
         
         // Return TimedValue
