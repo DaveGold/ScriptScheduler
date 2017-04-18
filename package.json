@@ -20,12 +20,12 @@
   "scripts": {
     "clean": "rimraf lib",
     "cleanNodeModules": "rimraf node_modules",
-    "lint": "tslint --force --format verbose \"src/**/*.ts\"",
+    "lint": "tslint --force --format verbose \"src/configs/**/*.ts\" && tslint --force --format verbose \"src/interfaces/**/*.ts\" && tslint --force --format verbose \"src/periodicJobs/**/*.ts\" && tslint --force --format verbose \"src/services/**/*.ts\"",
     "build": "npm run clean && npm run lint && echo Using TypeScript && tsc --version && tsc --pretty",
     "test": "npm run build && mocha --compilers ts:ts-node/register --recursive",
     "coverage": "nyc --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register --recursive",
     "watch": "npm run build -- --watch",
-    "watch:test": "npm run test -- --watch",
+    "watch:test": "npm run test -- --watch",    
     "start": "npm run build && node lib/index.js"
   },
   "dependencies": {

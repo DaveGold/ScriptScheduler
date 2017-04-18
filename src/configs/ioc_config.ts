@@ -3,7 +3,7 @@ import { Container } from "inversify";
 
 // Import interfaces
 import { IPeriodicJob } from "../interfaces/IPeriodicJob";
-import { IPIWebAPIService } from "../interfaces/IPIWebAPIService"
+import { IPIWebAPIService } from "../interfaces/IPIWebAPIService";
 
 // Import conrete classes of interfaces
 import { HelloSinusoid } from "../periodicJobs/HelloSinusoid";
