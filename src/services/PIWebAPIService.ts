@@ -34,6 +34,7 @@ export class PIWebAPIService implements IPIWebAPIService {
     // Override base path piwebapi
     public setBasePath(basePath: string) {
         this.basePath = basePath;
+        this.initAPI();
     }
 
     // Get value from PI point path or AF path
