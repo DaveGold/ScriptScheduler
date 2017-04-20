@@ -22,7 +22,7 @@ export class HelloEventFrame implements IPeriodicJob {
     // Job run function
     public async run(job: any, done: any) {
         try {            
-            const elementResponse  = await this.service.getElementByPath("\\\\PIAF01\\Demo OEE\\MAGION\\Netherlands\\TheHague\\Production\\Line1");
+            const elementResponse  = await this.service.getElementByPath("\\\\PIAF01\\Demo OEE\\MAGION\\Netherlands\\TheHague\\Production\\Line1");           
             const eventFrameResponse = await this.service.getEventFramesForElement(elementResponse.WebId);  
             console.log(eventFrameResponse);             
         } catch (error) {

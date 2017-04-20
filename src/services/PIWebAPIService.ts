@@ -42,7 +42,7 @@ export class PIWebAPIService implements IPIWebAPIService {
 
     // Get value from PI point path
     public async getPIPointDataByPath(fullPath: string): Promise<TimedValue> {
-        const pointResponse = await this.pointAPI.pointGetByPath(fullPath);        
+        const pointResponse = await this.pointAPI.pointGetByPath(fullPath);                
         const valueResponse = await this.streamAPI.streamGetValue(pointResponse.body.WebId);
         return valueResponse.body;
     }
@@ -72,6 +72,14 @@ export class PIWebAPIService implements IPIWebAPIService {
         // store eventframe in database
         const eventframeCreateResponse = await this.assetDatabaseAPI.assetDatabaseCreateEventFrame(databaseResponse.body.WebId,eventFrame) 
         console.log(eventframeCreateResponse); 
+    }  
+
+     // Create event frame for element
+    public async createEventFrameForDatabase(databasePath: string, eventFrame: EventFrame): Promise<void> {        
+        // Get database id
+        const databaseResponse = await this.assetDatabaseAPI.assetDatabaseGetByPath(databasePath)        
+        // store eventframe in database
+        const eventframeCreateResponse = await this.assetDatabaseAPI.assetDatabaseCreateEventFrame(databaseResponse.body.WebId,eventFrame) 
     }  
 
     // Init all API's from piwebapi with correct credentials

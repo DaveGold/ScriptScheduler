@@ -1,6 +1,6 @@
 
 // Import from piwebapi client
-import { Element as AfElement, ItemsEventFrame, TimedValue } from "../apiclients/piwebapi";
+import { Element as AfElement, EventFrame, ItemsEventFrame, TimedValue } from "../apiclients/piwebapi";
 
 export interface IPIWebAPIService {
     setBasicAuth(user: string, password: string): void;
@@ -8,5 +8,6 @@ export interface IPIWebAPIService {
     getElementByPath(fullPath: string): Promise<AfElement>;
     getEventFramesForElement(webId: string): Promise<ItemsEventFrame>;
     createEventFrameForElement(databasePath: string, elementWebId: string): Promise<void>;
+    createEventFrameForDatabase(databasePath: string, eventFrame: EventFrame): Promise<void>
     getPIPointDataByPath(fullPath: string): Promise<TimedValue>
 }

@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Element as AfElement, ItemsEventFrame, TimedValue } from "../apiclients/piwebapi";
+import { Element as AfElement, EventFrame, ItemsEventFrame, TimedValue } from "../apiclients/piwebapi";
 import { IPIWebAPIService } from "../interfaces/IPIWebAPIService";
 export declare class PIWebAPIService implements IPIWebAPIService {
     private user;
@@ -17,5 +17,6 @@ export declare class PIWebAPIService implements IPIWebAPIService {
     getElementByPath(fullPath: string): Promise<AfElement>;
     getEventFramesForElement(elementWebId: string): Promise<ItemsEventFrame>;
     createEventFrameForElement(databasePath: string, elementWebId: string): Promise<void>;
+    createEventFrameForDatabase(databasePath: string, eventFrame: EventFrame): Promise<void>;
     private initAPI();
 }

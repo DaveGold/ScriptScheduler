@@ -25,14 +25,17 @@
     "test": "npm run build && mocha --compilers ts:ts-node/register --recursive",
     "coverage": "nyc --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register --recursive",
     "watch": "npm run build -- --watch",
-    "watch:test": "npm run test -- --watch",    
+    "watch:test": "npm run test -- --watch",
     "start": "npm run build && node lib/index.js"
   },
   "dependencies": {
-    "agenda": "^0.9.1", 
+    "agenda": "^0.9.1",
     "inversify": "^3.3.0",
+    "mz": "^2.6.0",
+    "node-es-module-loader": "^0.3.8",
     "reflect-metadata": "^0.1.10",
-    "request": "^2.81.0"
+    "request": "^2.81.0",
+    "request-promise": "^4.2.0"
   },
   "devDependencies": {
     "@types/agenda": "^0.8.33",
@@ -41,7 +44,7 @@
     "@types/mongodb": "^2.1.42",
     "@types/node": "^7.0.0",
     "@types/request": "0.0.42",
-    "@types/reflect-metadata": "^0.0.5",    
+    "@types/reflect-metadata": "^0.0.5",
     "chai": "^3.0.0",
     "coveralls": "^2.0.0",
     "mocha": "^3.0.0",
