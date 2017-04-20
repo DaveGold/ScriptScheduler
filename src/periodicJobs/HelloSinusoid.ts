@@ -11,7 +11,7 @@ export class HelloSinusoid implements IPeriodicJob {
 
     // Job config
     public config = {
-        // Every 10 seconds cron notation
+        // Every 15 seconds cron notation
         interval: "*/15 * * * * *",
     };
 
