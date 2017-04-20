@@ -7,12 +7,12 @@ import { IPeriodicJob } from "../interfaces/IPeriodicJob";
 import { IPIWebAPIService } from "../interfaces/IPIWebAPIService";
 
 @injectable()
-export class HelloSinusoid implements IPeriodicJob {
+export class HelloEventFrame implements IPeriodicJob {
 
     // Job config
     public config = {
         // Every 10 seconds cron notation
-        interval: "*/15 * * * * *",
+        interval: "*/60 * * * * *",
     };
 
     // Get instance of PIWebAPIService with dependency injection
@@ -21,14 +21,13 @@ export class HelloSinusoid implements IPeriodicJob {
 
     // Job run function
     public async run(job: any, done: any) {
-        try {                             
-            const result  = await this.service.getPIPointDataByPath("\\\\PI\\SINUSOID");
-            console.log(result.Timestamp + " " + result.Value);
+        try {            
+            const elementResponse  = await this.service.getElementByPath("\\\\PIAF01\\Demo OEE\\MAGION\\Netherlands\\TheHague\\Production\\Line1");
+            const eventFrameResponse = await this.service.getEventFramesForElement(elementResponse.WebId);  
+            console.log(eventFrameResponse);             
         } catch (error) {
             console.error(error);
         }
         done();
     }
 }
-
-

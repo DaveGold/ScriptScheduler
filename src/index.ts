@@ -8,6 +8,9 @@ import { IPeriodicJob } from "./interfaces/IPeriodicJob";
 import "reflect-metadata";
 import { container } from "./configs/ioc_config";
 
+// Hack for self signed certifications
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
+
 async function runAgenda(): Promise<void> {
 
   // Setup Agenda with mongodb connection and all parameters
