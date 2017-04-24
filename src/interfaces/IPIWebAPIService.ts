@@ -10,5 +10,5 @@ export interface IPIWebAPIService {
     getEventFramesFromElement(elementWebId: string): Promise<ItemsEventFrame>;
     getEventFramesFromDatabase(databasePath: string): Promise<ItemsEventFrame>;
     createEventFrameForDatabase(databasePath: string, eventFrame: EventFrame): Promise<void>;
-    updateEventFrame(webId:string, eventFrame: EventFrame): Promise<void>;
+    updateEventFrame(webId: string, eventFrame: EventFrame): Promise<void>;
 }

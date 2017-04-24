@@ -27,25 +27,29 @@ export class HelloYouLess implements IPeriodicJob {
     private service: IPIWebAPIService;
 
     // Job run function
-    public async run(job: Agenda.Job,done: any) {
+    public async run(job: Agenda.Job, done: any) {
         try {
             // Get YouLess data
             const youLessResponse = await rp("http://172.16.70.13/a&f=j");
             const youLessData: IYouLess = JSON.parse(youLessResponse);
             const maxWatt: number = 8000;
             const isWattPeak = parseInt(youLessData.pwr, 10) >= maxWatt;
-            
-            if (isWattPeak) { // Create event frame and store in job
+
+            if (isWattPeak) {
+                // Create event frame and persist locally in job
+                // (storing in AF will create to much latency for the if check)
                 if (!job.attrs.data) {
-                    let data = new EventFrame();
+                    const data = new EventFrame();
                     data.Name = "YouLess Power Peak" + new Date().toDateString();
                     data.StartTime = new Date().toISOString();
-                    data.Description = `Youless power is starting to peaking above ${maxWatt} with ${youLessData.pwr} Watt`;
+                    data.Description = `Youless power is starting to peak
+                    above ${maxWatt} with ${youLessData.pwr} Watt`;
                     job.attrs.data = data;
                 }
-            } else { // Close event frame stored in job and store in database;
-                if(job.attrs.data){
-                    let data = job.attrs.data as EventFrame;
+            } else {
+                // Close event frame persisted in job and store in AF database;
+                if (job.attrs.data) {
+                    const data = job.attrs.data as EventFrame;
                     data.EndTime = new Date().toISOString();
                     await this.service.createEventFrameForDatabase("\\\\PIAF01\\YouLess", data);
                     job.attrs.data = null;

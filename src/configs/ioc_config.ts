@@ -6,7 +6,6 @@ import { IPeriodicJob } from "../interfaces/IPeriodicJob";
 import { IPIWebAPIService } from "../interfaces/IPIWebAPIService";
 
 // Import concrete classes of interfaces
-import { HelloEventFrame } from "../periodicJobs/HelloEventFrame";
 import { HelloSinusoid } from "../periodicJobs/HelloSinusoid";
 import { HelloYouLess } from "../periodicJobs/HelloYouLess";
 import { PIWebAPIService } from "../services/PIWebAPIService";
@@ -17,7 +16,6 @@ const container = new Container();
 // Setup bindings
 // Bind IPeriodicJob to HelloSinusoid which implements the IPeriodicJob interface
 container.bind<IPeriodicJob>("IPeriodicJob").to(HelloSinusoid).inTransientScope();
-container.bind<IPeriodicJob>("IPeriodicJob").to(HelloEventFrame).inTransientScope();
 container.bind<IPeriodicJob>("IPeriodicJob").to(HelloYouLess).inTransientScope();
 
 // Bind services to self

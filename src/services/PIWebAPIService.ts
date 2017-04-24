@@ -2,6 +2,9 @@
 import { injectable } from "inversify";
 import "reflect-metadata";
 // Import classes and API's from piwebapi client
+// Modified HttpBasicAuth with requestOptions.strictSSL = false to ignore bad certificates
+// Modified all "protected authentications" to "protected authentications: any" for typescript compiling
+// Modified all Date types to string because in runtime the PiWebAPI will return ISO strings not matching the date type.
 import {
     AssetDatabaseApi, Element as AfElement, ElementApi, EventFrame,
     EventFrameApi, ItemsEventFrame, PointApi, StreamApi, TimedValue,
@@ -62,7 +65,7 @@ export class PIWebAPIService implements IPIWebAPIService {
 
     // Get event frames from database
     public async getEventFramesFromDatabase(databasePath: string): Promise<ItemsEventFrame> {
-        const databaseResponse = await this.assetDatabaseAPI.assetDatabaseGetByPath(databasePath);       
+        const databaseResponse = await this.assetDatabaseAPI.assetDatabaseGetByPath(databasePath);
         const eventFrameResponse = await this.assetDatabaseAPI.assetDatabaseGetEventFrames(databaseResponse.body.WebId);
         return eventFrameResponse.body;
     }
@@ -70,7 +73,8 @@ export class PIWebAPIService implements IPIWebAPIService {
     // Create event frame for database
     public async createEventFrameForDatabase(databasePath: string, eventFrame: EventFrame): Promise<void> {
         const databaseResponse = await this.assetDatabaseAPI.assetDatabaseGetByPath(databasePath);
-        const eventframeCreateResponse = await this.assetDatabaseAPI.assetDatabaseCreateEventFrame(databaseResponse.body.WebId, eventFrame);
+        const eventframeCreateResponse =
+        await this.assetDatabaseAPI.assetDatabaseCreateEventFrame(databaseResponse.body.WebId, eventFrame);
     }
 
     // Update event frame for database
