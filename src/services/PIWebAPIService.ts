@@ -1,13 +1,15 @@
 // Import injectable for dependency injection
 import { injectable } from "inversify";
 import "reflect-metadata";
-
-// Import piwebapi client
+// Import classes and API's from piwebapi client
 import {
-    AssetDatabaseApi, Element as AfElement, ElementApi, EventFrame, EventFrameApi, ItemsEventFrame, PointApi, StreamApi, TimedValue, 
+    AssetDatabaseApi, Element as AfElement, ElementApi, EventFrame,
+    EventFrameApi, ItemsEventFrame, PointApi, StreamApi, TimedValue,
 } from "../apiclients/piwebapi";
+// Import PiWebAPI config
+import { config } from "../configs/piwebapi_config";
+// Import interfaces
 import { IPIWebAPIService } from "../interfaces/IPIWebAPIService";
-import { config } from "../configs/piwebapi_config"
 
 @injectable()
 export class PIWebAPIService implements IPIWebAPIService {
@@ -24,62 +26,57 @@ export class PIWebAPIService implements IPIWebAPIService {
 
     constructor() {
         this.setBasePath(config.basePath);
-        this.setBasicAuth(config.username,config.password);
+        this.setBasicAuth(config.username, config.password);
         this.initAPI();
     }
 
     // Set credentials
     public setBasicAuth(user: string, password: string) {
         this.user = user;
-        this.password = password;        
+        this.password = password;
     }
 
     // Override base path piwebapi
     public setBasePath(basePath: string) {
-        this.basePath = basePath;       
+        this.basePath = basePath;
     }
 
-    // Get value from PI point path
+    // Get actual value from PI point path
     public async getPIPointDataByPath(fullPath: string): Promise<TimedValue> {
-        const pointResponse = await this.pointAPI.pointGetByPath(fullPath);                
+        const pointResponse = await this.pointAPI.pointGetByPath(fullPath);
         const valueResponse = await this.streamAPI.streamGetValue(pointResponse.body.WebId);
         return valueResponse.body;
     }
 
     // Get element from AF path
     public async getElementByPath(fullPath: string): Promise<AfElement> {
-        const elementResponse = await this.elementAPI.elementGetByPath(fullPath);        
+        const elementResponse = await this.elementAPI.elementGetByPath(fullPath);
         return elementResponse.body;
     }
 
     // Get event frames from element
-    public async getEventFramesForElement(elementWebId: string): Promise<ItemsEventFrame> {
+    public async getEventFramesFromElement(elementWebId: string): Promise<ItemsEventFrame> {
         const eventFrameResponse = await this.elementAPI.elementGetEventFrames(elementWebId);
-        return eventFrameResponse.body;        
+        return eventFrameResponse.body;
     }
 
-    // Create event frame for element
-    public async createEventFrameForElement(databasePath: string, elementWebId: string): Promise<void> {
-        // Create eventframe
-        const eventFrame = new EventFrame()
-        eventFrame.RefElementWebIds = [elementWebId];
-        eventFrame.Name = "TestEventframe";
-        console.log("eventframe",eventFrame); 
-        // Get database id
-        const databaseResponse = await this.assetDatabaseAPI.assetDatabaseGetByPath(databasePath)
-        console.log(databaseResponse);
-        // store eventframe in database
-        const eventframeCreateResponse = await this.assetDatabaseAPI.assetDatabaseCreateEventFrame(databaseResponse.body.WebId,eventFrame) 
-        console.log(eventframeCreateResponse); 
-    }  
+    // Get event frames from database
+    public async getEventFramesFromDatabase(databasePath: string): Promise<ItemsEventFrame> {
+        const databaseResponse = await this.assetDatabaseAPI.assetDatabaseGetByPath(databasePath);
+        const eventFrameResponse = await this.assetDatabaseAPI.assetDatabaseGetEventFrames(databaseResponse.body.WebId);
+        return eventFrameResponse.body;
+    }
 
-     // Create event frame for element
-    public async createEventFrameForDatabase(databasePath: string, eventFrame: EventFrame): Promise<void> {        
-        // Get database id
-        const databaseResponse = await this.assetDatabaseAPI.assetDatabaseGetByPath(databasePath)        
-        // store eventframe in database
-        const eventframeCreateResponse = await this.assetDatabaseAPI.assetDatabaseCreateEventFrame(databaseResponse.body.WebId,eventFrame) 
-    }  
+    // Create event frame for database
+    public async createEventFrameForDatabase(databasePath: string, eventFrame: EventFrame): Promise<void> {
+        const databaseResponse = await this.assetDatabaseAPI.assetDatabaseGetByPath(databasePath);
+        const eventframeCreateResponse = await this.assetDatabaseAPI.assetDatabaseCreateEventFrame(databaseResponse.body.WebId, eventFrame);
+    }
+
+    // Update event frame for database
+    public async updateEventFrame(eventFrame: EventFrame): Promise<void> {
+        const test = await this.eventFrameAPI.eventFrameUpdate(eventFrame.WebId, eventFrame);
+    }
 
     // Init all API's from piwebapi with correct credentials
     private initAPI() {

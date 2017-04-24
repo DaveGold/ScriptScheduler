@@ -15,8 +15,9 @@ export declare class PIWebAPIService implements IPIWebAPIService {
     setBasePath(basePath: string): void;
     getPIPointDataByPath(fullPath: string): Promise<TimedValue>;
     getElementByPath(fullPath: string): Promise<AfElement>;
-    getEventFramesForElement(elementWebId: string): Promise<ItemsEventFrame>;
-    createEventFrameForElement(databasePath: string, elementWebId: string): Promise<void>;
+    getEventFramesFromElement(elementWebId: string): Promise<ItemsEventFrame>;
+    getEventFramesFromDatabase(databasePath: string): Promise<ItemsEventFrame>;
     createEventFrameForDatabase(databasePath: string, eventFrame: EventFrame): Promise<void>;
+    updateEventFrame(eventFrame: EventFrame): Promise<void>;
     private initAPI();
 }

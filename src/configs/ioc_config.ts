@@ -6,8 +6,8 @@ import { IPeriodicJob } from "../interfaces/IPeriodicJob";
 import { IPIWebAPIService } from "../interfaces/IPIWebAPIService";
 
 // Import concrete classes of interfaces
-import { HelloSinusoid } from "../periodicJobs/HelloSinusoid";
 import { HelloEventFrame } from "../periodicJobs/HelloEventFrame";
+import { HelloSinusoid } from "../periodicJobs/HelloSinusoid";
 import { HelloYouLess } from "../periodicJobs/HelloYouLess";
 import { PIWebAPIService } from "../services/PIWebAPIService";
 

@@ -4,10 +4,11 @@ import { Element as AfElement, EventFrame, ItemsEventFrame, TimedValue } from ".
 
 export interface IPIWebAPIService {
     setBasicAuth(user: string, password: string): void;
-    setBasePath(basePath: string): void;    
+    setBasePath(basePath: string): void;
+    getPIPointDataByPath(fullPath: string): Promise<TimedValue>;
     getElementByPath(fullPath: string): Promise<AfElement>;
-    getEventFramesForElement(webId: string): Promise<ItemsEventFrame>;
-    createEventFrameForElement(databasePath: string, elementWebId: string): Promise<void>;
-    createEventFrameForDatabase(databasePath: string, eventFrame: EventFrame): Promise<void>
-    getPIPointDataByPath(fullPath: string): Promise<TimedValue>
+    getEventFramesFromElement(elementWebId: string): Promise<ItemsEventFrame>;
+    getEventFramesFromDatabase(databasePath: string): Promise<ItemsEventFrame>;
+    createEventFrameForDatabase(databasePath: string, eventFrame: EventFrame): Promise<void>;
+    updateEventFrame(eventFrame: EventFrame): Promise<void>;
 }

@@ -30,9 +30,7 @@
   },
   "dependencies": {
     "agenda": "^0.9.1",
-    "inversify": "^3.3.0",
-    "mz": "^2.6.0",
-    "node-es-module-loader": "^0.3.8",
+    "inversify": "^3.3.0", 
     "reflect-metadata": "^0.1.10",
     "request": "^2.81.0",
     "request-promise": "^4.2.0"
@@ -44,6 +42,7 @@
     "@types/mongodb": "^2.1.42",
     "@types/node": "^7.0.0",
     "@types/request": "0.0.42",
+    "@types/request-promise": "^4.1.33",
     "@types/reflect-metadata": "^0.0.5",
     "chai": "^3.0.0",
     "coveralls": "^2.0.0",
