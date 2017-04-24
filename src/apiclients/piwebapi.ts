@@ -113,11 +113,11 @@ export class AnalysisRulePlugIn {
     'AssemblyFileName': string;
     'AssemblyID': string;
     'AssemblyLoadProperties': Array<string>;
-    'AssemblyTime': Date;
+    'AssemblyTime': string;
     'CompatibilityVersion': number;
     'IsBrowsable': boolean;
     'IsNonEditableConfig': boolean;
-    'LoadedAssemblyTime': Date;
+    'LoadedAssemblyTime': string;
     'LoadedVersion': string;
     'Version': string;
     'Links': AnalysisRulePlugInLinks;
@@ -165,9 +165,9 @@ export class Annotation {
     'Description': string;
     'Value': any;
     'Creator': string;
-    'CreationDate': Date;
+    'CreationDate': string;
     'Modifier': string;
-    'ModifyDate': Date;
+    'ModifyDate': string;
     'Links': AnnotationLinks;
 }
 
@@ -334,9 +334,9 @@ export class AttributeTraitLinks {
 
 export class CacheInstance {
     'Id': string;
-    'LastRefreshTime': Date;
-    'WillRefreshAfter': Date;
-    'ScheduledExpirationTime': Date;
+    'LastRefreshTime': string;
+    'WillRefreshAfter': string;
+    'ScheduledExpirationTime': string;
     'User': string;
 }
 
@@ -488,11 +488,11 @@ export class EventFrame {
     'HasChildren': boolean;
     'CategoryNames': Array<string>;
     'ExtendedProperties': { [key: string]: Value; };
-    'StartTime': Date;
-    'EndTime': Date;
+    'StartTime': string;
+    'EndTime': string;
     'Severity': string;
     'AcknowledgedBy': string;
-    'AcknowledgedDate': Date;
+    'AcknowledgedDate': string;
     'CanBeAcknowledged': boolean;
     'IsAcknowledged': boolean;
     'IsAnnotated': boolean;
@@ -1129,11 +1129,11 @@ export class TimeRulePlugIn {
     'AssemblyFileName': string;
     'AssemblyID': string;
     'AssemblyLoadProperties': Array<string>;
-    'AssemblyTime': Date;
+    'AssemblyTime': string;
     'CompatibilityVersion': number;
     'IsBrowsable': boolean;
     'IsNonEditableConfig': boolean;
-    'LoadedAssemblyTime': Date;
+    'LoadedAssemblyTime': string;
     'LoadedVersion': string;
     'Version': string;
     'Links': TimeRulePlugInLinks;
@@ -1145,7 +1145,7 @@ export class TimeRulePlugInLinks {
 }
 
 export class TimedValue {
-    'Timestamp': Date;
+    'Timestamp': string;
     'UnitsAbbreviation': string;
     'Good': boolean;
     'Questionable': boolean;
@@ -1232,7 +1232,7 @@ export class HttpBasicAuth implements Authentication {
         requestOptions.auth = {
             username: this.username, password: this.password
         }  
-        requestOptions.strictSSL = false;  
+        requestOptions.strictSSL = false;         
     }
 }
 

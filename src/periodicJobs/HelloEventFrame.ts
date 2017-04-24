@@ -1,4 +1,5 @@
-
+// Import Agenda
+import Agenda = require("agenda");
 // Import injectable and reflect metadata for dependency injection
 import { inject, injectable } from "inversify";
 import "reflect-metadata";
@@ -20,7 +21,7 @@ export class HelloEventFrame implements IPeriodicJob {
     private service: IPIWebAPIService;
 
     // Job run function
-    public async run(job: any, done: any) {
+    public async run(job: Agenda.Job, done: any) {
         try {
             const path: string = "\\\\PIAF01\\Demo OEE\\MAGION\\Netherlands\\TheHague\\Production\\Line1";
             const elementResponse  = await this.service.getElementByPath(path);

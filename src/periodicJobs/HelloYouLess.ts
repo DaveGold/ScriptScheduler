@@ -1,4 +1,5 @@
-
+// Import Agenda
+import Agenda = require("agenda");
 // Import injectable and reflect metadata for dependency injection
 import { inject, injectable } from "inversify";
 import "reflect-metadata";
@@ -26,30 +27,29 @@ export class HelloYouLess implements IPeriodicJob {
     private service: IPIWebAPIService;
 
     // Job run function
-    public async run(job: any, done: any) {
+    public async run(job: Agenda.Job,done: any) {
         try {
             // Get YouLess data
             const youLessResponse = await rp("http://172.16.70.13/a&f=j");
-            const data: IYouLess = JSON.parse(youLessResponse);
+            const youLessData: IYouLess = JSON.parse(youLessResponse);
             const maxWatt: number = 8000;
-            const isWattPeak = parseInt(data.pwr, 10) >= maxWatt;
-
-            // Get eventframes last 8 hours
-            const eventframes = await this.service.getEventFramesFromDatabase("\\\\PIAF01\\YouLess");
-
-            if (isWattPeak) { // Create event frame if no open event frames exists
-                if (!eventframes.Items.some((value) => !value.EndTime)) {
-                    const ef = new EventFrame();
-                    ef.Name = "YouLess Power Peak" + new Date().toDateString();
-                    ef.StartTime = new Date();
-                    ef.Description = `Youless power is starting to peaking above ${maxWatt} with ${data.pwr} Watt`;
-                    this.service.createEventFrameForDatabase("\\\\PIAF01\\YouLess", ef);
+            const isWattPeak = parseInt(youLessData.pwr, 10) >= maxWatt;
+            
+            if (isWattPeak) { // Create event frame and store in job
+                if (!job.attrs.data) {
+                    let data = new EventFrame();
+                    data.Name = "YouLess Power Peak" + new Date().toDateString();
+                    data.StartTime = new Date().toISOString();
+                    data.Description = `Youless power is starting to peaking above ${maxWatt} with ${youLessData.pwr} Watt`;
+                    job.attrs.data = data;
                 }
-            } else { // Close open event frame if it does exists;
-                const openFrames = eventframes.Items.filter((value) => !value.EndTime).forEach((value) => {
-                    value.EndTime = new Date();
-                    this.service.updateEventFrame(value);
-                });
+            } else { // Close event frame stored in job and store in database;
+                if(job.attrs.data){
+                    let data = job.attrs.data as EventFrame;
+                    data.EndTime = new Date().toISOString();
+                    await this.service.createEventFrameForDatabase("\\\\PIAF01\\YouLess", data);
+                    job.attrs.data = null;
+                }
             }
             done();
         } catch (error) {

@@ -1,9 +1,11 @@
+// Import Agenda
+import Agenda = require("agenda");
 
 export interface IPeriodicJob {
 
     config: {
         interval: string,
     };
-    run(job: any, done: any): void;
+    run(job: Agenda.Job, done: any): void;
 
 }

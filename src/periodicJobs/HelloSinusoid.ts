@@ -1,4 +1,5 @@
-
+// Import Agenda
+import Agenda = require("agenda");
 // Import injectable and reflect metadata for dependency injection
 import { inject, injectable } from "inversify";
 import "reflect-metadata";
@@ -20,7 +21,7 @@ export class HelloSinusoid implements IPeriodicJob {
     private service: IPIWebAPIService;
 
     // Job run function
-    public async run(job: any, done: any) {
+    public async run(job: Agenda.Job, done: any) {
         try {
             const result  = await this.service.getPIPointDataByPath("\\\\PI\\SINUSOID");
             console.log(result.Timestamp + " " + result.Value);

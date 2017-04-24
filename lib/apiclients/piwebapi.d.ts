@@ -88,11 +88,11 @@ export declare class AnalysisRulePlugIn {
     'AssemblyFileName': string;
     'AssemblyID': string;
     'AssemblyLoadProperties': Array<string>;
-    'AssemblyTime': Date;
+    'AssemblyTime': string;
     'CompatibilityVersion': number;
     'IsBrowsable': boolean;
     'IsNonEditableConfig': boolean;
-    'LoadedAssemblyTime': Date;
+    'LoadedAssemblyTime': string;
     'LoadedVersion': string;
     'Version': string;
     'Links': AnalysisRulePlugInLinks;
@@ -136,9 +136,9 @@ export declare class Annotation {
     'Description': string;
     'Value': any;
     'Creator': string;
-    'CreationDate': Date;
+    'CreationDate': string;
     'Modifier': string;
-    'ModifyDate': Date;
+    'ModifyDate': string;
     'Links': AnnotationLinks;
 }
 export declare class AnnotationLinks {
@@ -295,9 +295,9 @@ export declare class AttributeTraitLinks {
 }
 export declare class CacheInstance {
     'Id': string;
-    'LastRefreshTime': Date;
-    'WillRefreshAfter': Date;
-    'ScheduledExpirationTime': Date;
+    'LastRefreshTime': string;
+    'WillRefreshAfter': string;
+    'ScheduledExpirationTime': string;
     'User': string;
 }
 export declare class DataServer {
@@ -441,11 +441,11 @@ export declare class EventFrame {
     'ExtendedProperties': {
         [key: string]: Value;
     };
-    'StartTime': Date;
-    'EndTime': Date;
+    'StartTime': string;
+    'EndTime': string;
     'Severity': string;
     'AcknowledgedBy': string;
-    'AcknowledgedDate': Date;
+    'AcknowledgedDate': string;
     'CanBeAcknowledged': boolean;
     'IsAcknowledged': boolean;
     'IsAnnotated': boolean;
@@ -1010,11 +1010,11 @@ export declare class TimeRulePlugIn {
     'AssemblyFileName': string;
     'AssemblyID': string;
     'AssemblyLoadProperties': Array<string>;
-    'AssemblyTime': Date;
+    'AssemblyTime': string;
     'CompatibilityVersion': number;
     'IsBrowsable': boolean;
     'IsNonEditableConfig': boolean;
-    'LoadedAssemblyTime': Date;
+    'LoadedAssemblyTime': string;
     'LoadedVersion': string;
     'Version': string;
     'Links': TimeRulePlugInLinks;
@@ -1024,7 +1024,7 @@ export declare class TimeRulePlugInLinks {
     'AssetServer': string;
 }
 export declare class TimedValue {
-    'Timestamp': Date;
+    'Timestamp': string;
     'UnitsAbbreviation': string;
     'Good': boolean;
     'Questionable': boolean;

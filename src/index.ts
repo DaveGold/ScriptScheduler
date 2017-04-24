@@ -31,7 +31,7 @@ async function runAgenda(): Promise<void> {
 
   // Define job for each periodicJob
   for (const periodicJob of periodicJobs){
-    agenda.define(periodicJob.constructor.name, (job: any, done: any) => {
+    agenda.define(periodicJob.constructor.name, (job: Agenda.Job, done: any) => {
       periodicJob.run(job, done);
     });
   }

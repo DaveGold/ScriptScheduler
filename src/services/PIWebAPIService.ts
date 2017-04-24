@@ -62,7 +62,7 @@ export class PIWebAPIService implements IPIWebAPIService {
 
     // Get event frames from database
     public async getEventFramesFromDatabase(databasePath: string): Promise<ItemsEventFrame> {
-        const databaseResponse = await this.assetDatabaseAPI.assetDatabaseGetByPath(databasePath);
+        const databaseResponse = await this.assetDatabaseAPI.assetDatabaseGetByPath(databasePath);       
         const eventFrameResponse = await this.assetDatabaseAPI.assetDatabaseGetEventFrames(databaseResponse.body.WebId);
         return eventFrameResponse.body;
     }
@@ -74,8 +74,8 @@ export class PIWebAPIService implements IPIWebAPIService {
     }
 
     // Update event frame for database
-    public async updateEventFrame(eventFrame: EventFrame): Promise<void> {
-        const test = await this.eventFrameAPI.eventFrameUpdate(eventFrame.WebId, eventFrame);
+    public async updateEventFrame(webId: string, eventFrame: EventFrame): Promise<void> {
+        const test = await this.eventFrameAPI.eventFrameUpdate(webId, eventFrame);
     }
 
     // Init all API's from piwebapi with correct credentials
