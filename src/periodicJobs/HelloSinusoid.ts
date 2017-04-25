@@ -7,8 +7,8 @@ import "reflect-metadata";
 import { IPeriodicJob } from "../interfaces/IPeriodicJob";
 import { IPIWebAPIService } from "../interfaces/IPIWebAPIService";
 // import specific external modules from node_modules
-import fs = require('fs');
-var csvWriter = require('csv-write-stream')
+import * as fs from "mz/fs";
+const csv = require("csv.js");
 
 @injectable()
 export class HelloSinusoid implements IPeriodicJob {
@@ -26,11 +26,20 @@ export class HelloSinusoid implements IPeriodicJob {
     // Job run function
     public async run(job: Agenda.Job, done: any) {
         try {
-            const result  = await this.service.getPIPointDataByPath("\\\\PI\\SINUSOID");
-            var writer = csvWriter();
-            writer.pipe(fs.createWriteStream("helloSinusoid.csv"),{flags: "a"});
-            writer.write(result);
-            writer.end();            
+            // Await actual Sinusoid value from PIWebAPI service with basic auth defined in configs/piwebapi_config.ts
+            const result = await this.service.getPIPointDataByPath("\\\\PI\\SINUSOID");
+            // Define constants for csv writing
+            const newLine = "\r\n";
+            const dateString: string = `${new Date().getDate()}_${new Date().getMonth()}_${new Date().getFullYear()}`;
+            const file = `output/helloSinusoid_${dateString}.csv`;
+            // Append to existing file or create new file
+            if (await fs.exists(file)) {
+                const encoded = csv.encode(result, ",", false) + newLine;
+                await fs.appendFile(file, encoded);
+            } else {
+                const encoded = csv.encode(result, ",", true) + newLine;
+                await fs.writeFile(file, encoded);
+            }
             done();
         } catch (error) {
             console.error(error);

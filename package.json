@@ -34,7 +34,8 @@
     "reflect-metadata": "^0.1.10",
     "request": "^2.81.0",
     "request-promise": "^4.2.0",
-    "csv-write-stream": "^2.0.0"   
+    "csv.js": "^1.0.2",  
+    "mz": "^2.6.0"
   },
   "devDependencies": {
     "@types/agenda": "^0.8.33",
@@ -45,6 +46,7 @@
     "@types/request": "0.0.42",
     "@types/request-promise": "^4.1.33",
     "@types/reflect-metadata": "^0.0.5",
+    "@types/mz":"^0.0.31",
     "chai": "^3.0.0",
     "coveralls": "^2.0.0",
     "mocha": "^3.0.0",
