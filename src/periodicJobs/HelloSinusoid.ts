@@ -23,7 +23,7 @@ export class HelloSinusoid implements IPeriodicJob {
     // Job run function
     public async run(job: Agenda.Job, done: any) {
         try {
-            const result  = await this.service.getPIPointDataByPath("\\\\PI\\SINUSOID");
+            const result  = await this.service.getPIPointDataByPath("\\\\PI\\SINUSOID");            
             console.log(result.Timestamp + " " + result.Value);
             done();
         } catch (error) {

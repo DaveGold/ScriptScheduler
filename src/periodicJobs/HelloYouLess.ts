@@ -40,10 +40,9 @@ export class HelloYouLess implements IPeriodicJob {
                 // (storing in AF will create to much latency for the if check)
                 if (!job.attrs.data) {
                     const data = new EventFrame();
-                    data.Name = "YouLess Power Peak" + new Date().toDateString();
+                    data.Name = "YouLess Power Peak " + new Date().toDateString();
                     data.StartTime = new Date().toISOString();
-                    data.Description = `Youless power is starting to peak
-                    above ${maxWatt} with ${youLessData.pwr} Watt`;
+                    data.Description = `Youless power is starting to peak above ${maxWatt} with ${youLessData.pwr} Watt`;
                     job.attrs.data = data;
                 }
             } else {
