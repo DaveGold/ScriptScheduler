@@ -20,7 +20,7 @@
   "scripts": {
     "clean": "rimraf lib",
     "cleanNodeModules": "rimraf node_modules",
-    "lint": "tslint --force --format verbose \"src/configs/**/*.ts\" && tslint --force --format verbose \"src/interfaces/**/*.ts\" && tslint --force --format verbose \"src/periodicJobs/**/*.ts\" && tslint --force --format verbose \"src/services/**/*.ts\"",
+    "lint": "tslint --force --format verbose \"src/configs/**/*.ts\" && tslint --force --format verbose \"src/interfaces/**/*.ts\" && tslint --force --format verbose \"src/periodicJobs/**/*.ts\" && tslint --force --format verbose \"src/services/**/*.ts\" && tslint --force --format verbose \"src/processors/**/*.ts\"",
     "build": "npm run clean && npm run lint && echo Using TypeScript && tsc --version && tsc --pretty",
     "test": "npm run build && mocha --compilers ts:ts-node/register --recursive",
     "coverage": "nyc --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register --recursive",
@@ -35,7 +35,8 @@
     "request": "^2.81.0",
     "request-promise": "^4.2.0",
     "csv.js": "^1.0.2",  
-    "mz": "^2.6.0"
+    "mz": "^2.6.0",
+    "nodejs-websocket": "git+https://github.com/AppSaloon/nodejs-websocket.git"
   },
   "devDependencies": {
     "@types/agenda": "^0.8.33",
@@ -47,6 +48,7 @@
     "@types/request-promise": "^4.1.33",
     "@types/reflect-metadata": "^0.0.5",
     "@types/mz":"^0.0.31",
+    "@types/ws":"^0.0.40",
     "chai": "^3.0.0",
     "coveralls": "^2.0.0",
     "mocha": "^3.0.0",
