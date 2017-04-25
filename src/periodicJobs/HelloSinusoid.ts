@@ -32,7 +32,7 @@ export class HelloSinusoid implements IPeriodicJob {
             const newLine = "\r\n";
             const dateString: string = `${new Date().getDate()}_${new Date().getMonth()}_${new Date().getFullYear()}`;
             const file = `output/helloSinusoid_${dateString}.csv`;
-            // Append to existing file or create new file
+            // Append to existing file or create new file with headers
             if (await fs.exists(file)) {
                 const encoded = csv.encode(result, ",", false) + newLine;
                 await fs.appendFile(file, encoded);
