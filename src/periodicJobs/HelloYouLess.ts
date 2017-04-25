@@ -18,7 +18,7 @@ export class HelloYouLess implements IPeriodicJob {
 
     // Job config
     public config = {
-        // Every 10 seconds cron notation
+        // Every 2 seconds cron notation
         interval: "*/2 * * * * *",
     };
 

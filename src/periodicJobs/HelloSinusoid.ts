@@ -6,6 +6,9 @@ import "reflect-metadata";
 // Import interfaces for class implementation and dependency injection
 import { IPeriodicJob } from "../interfaces/IPeriodicJob";
 import { IPIWebAPIService } from "../interfaces/IPIWebAPIService";
+// import specific external modules from node_modules
+import fs = require('fs');
+var csvWriter = require('csv-write-stream')
 
 @injectable()
 export class HelloSinusoid implements IPeriodicJob {
@@ -23,8 +26,11 @@ export class HelloSinusoid implements IPeriodicJob {
     // Job run function
     public async run(job: Agenda.Job, done: any) {
         try {
-            const result  = await this.service.getPIPointDataByPath("\\\\PI\\SINUSOID");            
-            console.log(result.Timestamp + " " + result.Value);
+            const result  = await this.service.getPIPointDataByPath("\\\\PI\\SINUSOID");
+            var writer = csvWriter();
+            writer.pipe(fs.createWriteStream("helloSinusoid.csv"),{flags: "a"});
+            writer.write(result);
+            writer.end();            
             done();
         } catch (error) {
             console.error(error);

@@ -33,7 +33,8 @@
     "inversify": "^3.3.0", 
     "reflect-metadata": "^0.1.10",
     "request": "^2.81.0",
-    "request-promise": "^4.2.0"
+    "request-promise": "^4.2.0",
+    "csv-write-stream": "^2.0.0"   
   },
   "devDependencies": {
     "@types/agenda": "^0.8.33",

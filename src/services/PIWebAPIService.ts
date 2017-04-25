@@ -47,7 +47,7 @@ export class PIWebAPIService implements IPIWebAPIService {
     // Get actual value from PI point path
     public async getPIPointDataByPath(fullPath: string, time: string = "*"): Promise<TimedValue> {
         const pointResponse = await this.pointAPI.pointGetByPath(fullPath);
-        const valueResponse = await this.streamAPI.streamGetValue(pointResponse.body.WebId,undefined,undefined,time,undefined);
+        const valueResponse = await this.streamAPI.streamGetValue(pointResponse.body.WebId, undefined, undefined, time, undefined);
         return valueResponse.body;
     }
 
