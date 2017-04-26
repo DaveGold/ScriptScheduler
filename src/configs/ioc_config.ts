@@ -19,7 +19,7 @@ const container = new Container();
 // Setup bindings
 // Bind IPeriodicJob to HelloSinusoid which implements the IPeriodicJob interface
 container.bind<IPeriodicJob>("IPeriodicJob").to(HelloSinusoidPeriodic).inTransientScope();
-//container.bind<IPeriodicJob>("IPeriodicJob").to(HelloYouLess).inTransientScope();
+container.bind<IPeriodicJob>("IPeriodicJob").to(HelloYouLess).inTransientScope();
 
 // Bind ITriggeredJob to HelloSinusoid which implements the IPeriodicJob interface
 container.bind<ITriggeredJob>("ITriggeredJob").to(HelloSinusoidTriggered).inTransientScope();

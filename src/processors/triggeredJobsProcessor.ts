@@ -5,9 +5,9 @@ import { ITriggeredJob } from "../interfaces/ITriggeredJob";
 // Import IOC container
 import "reflect-metadata";
 import { container } from "../configs/ioc_config";
-import WebSocket = require("ws");
 import { config } from "../configs/piwebapi_config";
-const ws = require('nodejs-websocket')
+import request = require("request-promise");
+const WebSocket = require('ws');
 
 export class TriggeredJobsProcessor {
 
@@ -27,36 +27,35 @@ export class TriggeredJobsProcessor {
     agenda.name("triggeredJobsProcessor"); // Add name external because not in configuration typings
 
     // Resolve IPeriodic Jobs with IOC container
-    const periodicJobs = container.getAll<ITriggeredJob>("ITriggeredJob");
+    const triggeredJobs = container.getAll<ITriggeredJob>("ITriggeredJob");
 
     // Define job for each periodicJob
-    for (const periodicJob of periodicJobs) {
-      agenda.define(periodicJob.constructor.name, (job: Agenda.Job, done: any) => {
-        periodicJob.run(job, done);
+    for (const triggeredJob of triggeredJobs) {
+      agenda.define(triggeredJob.constructor.name, (job: Agenda.Job, done: any) => {
+        triggeredJob.run(job, done);
       });
     }
 
     // Hack for self signed certifications
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
+    //process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
 
     // Wait for agenda to connect.
-    agenda.on("ready", () => {
+    agenda.on("ready", () => {  
 
-      var options = {
-        extraHeaders: {
-          Authorization: 'Basic ' + new Buffer(config.username + ':' + config.password).toString('base64')
+      const opts = {
+        rejectUnauthorized: false,
+        headers: {
+          "Authorization": 'Basic ' + new Buffer(config.username + ':' + config.password).toString('base64')
         }
+      };
+
+      for (const triggeredJob of triggeredJobs) {
+        const ws = new WebSocket("wss://server2012r2dg.dev.magion.loc/piwebapi/streams/P0SArgDM8qXEynOzOPNm6QcAAQAAAAUEkyMDE2LkRFVi5NQUdJT04uTE9DXFNJTlVTT0lE/channel",null,opts);
+        ws.on("message",function(data: any, flags: any){          
+          agenda.now(triggeredJob.constructor.name,data);
+        });     
       }
 
-      var conn = ws.connect("wss://devdata.osisoft.com/piwebapi/streams/P0SArgDM8qXEynOzOPNm6QcAAQAAAAUEkyMDE2XFNJTlVTT0lE/channel",options)
-      conn.on("message",function(data: any){
-        console.log(data);
-      })
-
-
-      // for (const periodicJob of periodicJobs) {
-      //   agenda.every(periodicJob.config.interval, periodicJob.constructor.name);
-      // }
       agenda.start();
     });
 

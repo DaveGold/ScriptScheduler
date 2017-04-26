@@ -16,14 +16,15 @@ export class HelloSinusoid implements ITriggeredJob {
 
     public async getChannel(): Promise<string> {
         let p = new Promise<string>((resolve) =>{
-            resolve("wss://devdata.osisoft.com/piwebapi/streams/P0SArgDM8qXEynOzOPNm6QcAAQAAAAUEkyMDE2XFNJTlVTT0lE/channel");
+            resolve("wss://server2012r2dg.dev.magion.loc/piwebapi/streams/P0j0AfYqUlKkmLcdB1BPOH5QAQAAAAUElcU0lOVVNPSUQ/channel");
         })
         return p;
     }    
 
     // Job run function
     public async run(job: Agenda.Job, done: any): Promise<void> {
-        try {            
+        try {   
+            console.log("hello from triggered helloSinusoid",job.attrs.data);       
             done();
         } catch (error) {
             console.error(error);

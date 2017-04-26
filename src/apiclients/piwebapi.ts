@@ -1232,7 +1232,7 @@ export class HttpBasicAuth implements Authentication {
         requestOptions.auth = {
             username: this.username, password: this.password
         }  
-        //requestOptions.strictSSL = false;         
+        requestOptions.strictSSL = false;         
     }
 }
 

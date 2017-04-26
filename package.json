@@ -36,7 +36,7 @@
     "request-promise": "^4.2.0",
     "csv.js": "^1.0.2",  
     "mz": "^2.6.0",
-    "nodejs-websocket": "git+https://github.com/AppSaloon/nodejs-websocket.git"
+    "ws":"^2.3.1"   
   },
   "devDependencies": {
     "@types/agenda": "^0.8.33",
@@ -47,8 +47,8 @@
     "@types/request": "0.0.42",
     "@types/request-promise": "^4.1.33",
     "@types/reflect-metadata": "^0.0.5",
-    "@types/mz":"^0.0.31",
-    "@types/ws":"^0.0.40",
+    "@types/mz":"^0.0.31",  
+    "@types/ws":"^0.0.40", 
     "chai": "^3.0.0",
     "coveralls": "^2.0.0",
     "mocha": "^3.0.0",

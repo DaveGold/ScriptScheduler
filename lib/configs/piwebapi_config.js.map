@@ -1,1 +1,1 @@
-{"version":3,"file":"piwebapi_config.js","sourceRoot":"","sources":["../../src/configs/piwebapi_config.ts"],"names":[],"mappings":";;AAOA,MAAM,MAAM,GAAG;IACX,QAAQ,EAAG,sCAAsC;IACjD,QAAQ,EAAG,YAAY;IACvB,QAAQ,EAAG,iBAAiB;CAC/B,CAAC;AAQO,wBAAM"}
+{"version":3,"file":"piwebapi_config.js","sourceRoot":"","sources":["../../src/configs/piwebapi_config.ts"],"names":[],"mappings":";;AAaA,MAAM,MAAM,GAAG;IACX,QAAQ,EAAG,iDAAiD;IAC5D,QAAQ,EAAG,MAAM;IACjB,QAAQ,EAAG,cAAc;CAC5B,CAAC;AAEO,wBAAM"}
