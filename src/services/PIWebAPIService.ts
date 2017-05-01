@@ -51,6 +51,13 @@ export class PIWebAPIService implements IPIWebAPIService {
         return valueResponse.body;
     }
 
+    // Get channel by PI point path
+    public async getPIPointChannelUrlByPath(fullPath: string): Promise<string> {
+        const pointResponse = await this.pointAPI.pointGetByPath(fullPath);        
+        const channel = `wss://server2012r2dg.dev.magion.loc/piwebapi/streams/${pointResponse.body.WebId}/channel`
+        return channel;
+    }
+
     // Get element from AF path
     public async getElementByPath(fullPath: string): Promise<AfElement> {
         const elementResponse = await this.elementAPI.elementGetByPath(fullPath);

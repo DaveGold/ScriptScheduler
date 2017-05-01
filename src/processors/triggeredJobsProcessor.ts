@@ -40,8 +40,8 @@ export class TriggeredJobsProcessor {
     //process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
 
     // Wait for agenda to connect.
-    agenda.on("ready", () => {  
-
+    agenda.on("ready", async () => {  
+      
       const opts = {
         rejectUnauthorized: false,
         headers: {
@@ -49,8 +49,9 @@ export class TriggeredJobsProcessor {
         }
       };
 
-      for (const triggeredJob of triggeredJobs) {
-        const ws = new WebSocket("wss://server2012r2dg.dev.magion.loc/piwebapi/streams/P0SArgDM8qXEynOzOPNm6QcAAQAAAAUEkyMDE2LkRFVi5NQUdJT04uTE9DXFNJTlVTT0lE/channel",null,opts);
+      for (let triggeredJob of triggeredJobs) {
+        let url = await triggeredJob.getChannel();
+        const ws = new WebSocket(url,null,opts);
         ws.on("message",function(data: any, flags: any){          
           agenda.now(triggeredJob.constructor.name,data);
         });     

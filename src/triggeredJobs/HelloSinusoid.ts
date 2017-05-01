@@ -6,6 +6,9 @@ import "reflect-metadata";
 // Import interfaces for class implementation and dependency injection
 import { ITriggeredJob } from "../interfaces/ITriggeredJob";
 import { IPIWebAPIService } from "../interfaces/IPIWebAPIService";
+import { TimedValue } from "../apiclients/piwebapi";
+import * as fs from "mz/fs";
+const csv = require("csv.js");
 
 @injectable()
 export class HelloSinusoid implements ITriggeredJob {
@@ -14,17 +17,28 @@ export class HelloSinusoid implements ITriggeredJob {
     @inject("IPIWebAPIService")
     private service: IPIWebAPIService;
 
-    public async getChannel(): Promise<string> {
-        let p = new Promise<string>((resolve) =>{
-            resolve("wss://server2012r2dg.dev.magion.loc/piwebapi/streams/P0j0AfYqUlKkmLcdB1BPOH5QAQAAAAUElcU0lOVVNPSUQ/channel");
-        })
-        return p;
+    public getChannel(): Promise<string> {
+        return this.service.getPIPointChannelUrlByPath("\\\\PI2016\\SINUSOID");
     }    
 
     // Job run function
     public async run(job: Agenda.Job, done: any): Promise<void> {
-        try {   
-            console.log("hello from triggered helloSinusoid",job.attrs.data);       
+        try {
+            // Define constants for csv writing
+            const newLine = "\r\n";
+            const dateString: string = `${new Date().getDate()}_${new Date().getMonth()}_${new Date().getFullYear()}`;
+            const file = `output/helloSinusoid_${dateString}.csv`;
+            let channelData = JSON.parse((job.attrs.data as any) as string);
+            let values: Array<TimedValue> = channelData.Items[0].Items;                   
+
+            //Append to existing file or create new file with headers
+            if (await fs.exists(file)) {
+                const encoded = csv.encode(values, ",", false) + newLine;
+                await fs.appendFile(file, encoded);
+            } else {
+                const encoded = csv.encode(values, ",", true) + newLine;
+                await fs.writeFile(file, encoded);
+            }      
             done();
         } catch (error) {
             console.error(error);
