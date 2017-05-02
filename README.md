@@ -27,8 +27,7 @@ Ctrl+ to open integrated terminal
 Execute "npm install" to install all required node modules in node_modules folder
 Execute "npm run-script build" to build the project or Ctrl + Shift + B
 Execute "mongod" in one terminal
-Execute "npm start" in other terminal or click on launch program from debugger and set breakpoints (Ctrl + Shift + D)
-
+Execute "npm start" in other terminal or click on launch debugger and set breakpoints F5
 
 
 
