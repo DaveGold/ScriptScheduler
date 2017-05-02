@@ -6,7 +6,7 @@ import "reflect-metadata";
 // Modified all "protected authentications" to "protected authentications: any" for typescript compiling
 // Modified all Date types to string because in runtime the PiWebAPI will return ISO strings not matching the date type.
 import {
-    AssetDatabaseApi, Element as AfElement, ElementApi, EventFrame,
+    AssetDatabaseApi, ChannelApi, Element as AfElement, ElementApi, EventFrame,
     EventFrameApi, ItemsEventFrame, PointApi, StreamApi, TimedValue,
 } from "../apiclients/piwebapi";
 // Import PiWebAPI config
@@ -52,10 +52,9 @@ export class PIWebAPIService implements IPIWebAPIService {
     }
 
     // Get channel by PI point path
-    public async getPIPointChannelUrlByPath(fullPath: string): Promise<string> {
-        const pointResponse = await this.pointAPI.pointGetByPath(fullPath);        
-        const channel = `wss://server2012r2dg.dev.magion.loc/piwebapi/streams/${pointResponse.body.WebId}/channel`
-        return channel;
+    public async getPIPointChannelUrlByPath(fullPath: string, includeInitialValues: boolean): Promise<string> {
+        const pointResponse = await this.pointAPI.pointGetByPath(fullPath);
+        return `wss://server2012r2dg.dev.magion.loc/piwebapi/streams/${pointResponse.body.WebId}/channel?includeInitialValues=${includeInitialValues}`;
     }
 
     // Get element from AF path

@@ -5,9 +5,8 @@ import { ITriggeredJob } from "../interfaces/ITriggeredJob";
 // Import IOC container
 import "reflect-metadata";
 import { container } from "../configs/ioc_config";
-import { config } from "../configs/piwebapi_config";
 import request = require("request-promise");
-const WebSocket = require('ws');
+const WebSocket = require("ws");
 
 export class TriggeredJobsProcessor {
 
@@ -31,32 +30,24 @@ export class TriggeredJobsProcessor {
 
     // Define job for each periodicJob
     for (const triggeredJob of triggeredJobs) {
+      // Define on class name and bind execution to run function
       agenda.define(triggeredJob.constructor.name, (job: Agenda.Job, done: any) => {
         triggeredJob.run(job, done);
       });
     }
 
-    // Hack for self signed certifications
-    //process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
-
     // Wait for agenda to connect.
-    agenda.on("ready", async () => {  
-      
-      const opts = {
-        rejectUnauthorized: false,
-        headers: {
-          "Authorization": 'Basic ' + new Buffer(config.username + ':' + config.password).toString('base64')
-        }
-      };
-
-      for (let triggeredJob of triggeredJobs) {
-        let url = await triggeredJob.getChannel();
-        const ws = new WebSocket(url,null,opts);
-        ws.on("message",function(data: any, flags: any){          
-          agenda.now(triggeredJob.constructor.name,data);
-        });     
+    agenda.on("ready", async () => {
+      for (const triggeredJob of triggeredJobs) {
+        // Get wss url form job
+        const url = await triggeredJob.getChannelURL();
+        // Open wss channel with options (security)
+        const ws = new WebSocket(url, null, triggeredJob.webSocketOptions);
+        // Bind message event to immediately job excecution
+        ws.on("message", (data: any) => {
+          agenda.now(triggeredJob.constructor.name, data);
+        });
       }
-
       agenda.start();
     });
 

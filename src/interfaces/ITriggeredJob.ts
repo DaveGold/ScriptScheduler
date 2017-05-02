@@ -2,8 +2,7 @@
 import Agenda = require("agenda");
 
 export interface ITriggeredJob {
-
-    getChannel(): Promise<string>
+    webSocketOptions: {};
+    getChannelURL(): Promise<string>;
     run(job: Agenda.Job, done: any): void;
-
 }

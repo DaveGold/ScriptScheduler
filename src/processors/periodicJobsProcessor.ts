@@ -33,6 +33,7 @@ export class PeriodicJobsProcessor {
 
     // Define job for each periodicJob
     for (const periodicJob of periodicJobs) {
+      // Define on class name and bind execution to run function
       agenda.define(periodicJob.constructor.name, (job: Agenda.Job, done: any) => {
         periodicJob.run(job, done);
       });
@@ -41,6 +42,7 @@ export class PeriodicJobsProcessor {
     // Wait for agenda to connect.
     agenda.on("ready", () => {
       for (const periodicJob of periodicJobs) {
+        // Excecute job on every interval
         agenda.every(periodicJob.config.interval, periodicJob.constructor.name);
       }
       agenda.start();

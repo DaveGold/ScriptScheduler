@@ -29,9 +29,11 @@ export class HelloYouLess implements IPeriodicJob {
     // Job run function
     public async run(job: Agenda.Job, done: any) {
         try {
-            // Get YouLess data
+            // Get YouLess data (Dutch Energy Monitor)
             const youLessResponse = await rp("http://172.16.70.13/a&f=j");
+            // Parse string to data and define data format with interface
             const youLessData: IYouLess = JSON.parse(youLessResponse);
+            // Check for watt peak
             const maxWatt: number = 8000;
             const isWattPeak = parseInt(youLessData.pwr, 10) >= maxWatt;
 
