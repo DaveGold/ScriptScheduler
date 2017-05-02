@@ -12,8 +12,8 @@ export class HelloSinusoid implements IPeriodicJob {
 
     // Job config
     public config = {
-        // Every 15 seconds cron notation
-        interval: "*/15 * * * * *",
+        // Every 15 seconds human notation
+        interval: "15 seconds",
     };
 
     // Get instance of PIWebAPIService with dependency injection
